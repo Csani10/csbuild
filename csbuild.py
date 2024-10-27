@@ -1,5 +1,6 @@
 import argparse
 import os
+import hashlib
 
 # Parse arguments
 parser = argparse.ArgumentParser(description="Its like cmake but better.")
@@ -20,6 +21,7 @@ extra_flags = ""
 compiler = "gcc"
 sources = []
 operations = {}
+up_to_date = []
 
 # Logs message to stdout based on severity
 def log(message, level):
@@ -37,7 +39,40 @@ if args.verbose:
 # Build function, builds the project using CSBuild variables
 def build():
     for source_file in sources:
+        basename = os.path.basename(source_file)
+        if os.path.exists(".csbuild/" + basename + ".hash"):
+            basehash = ""
+            filehash = ""
+            with open(".csbuild/" + basename + ".hash", "r") as f:
+                basehash = f.read()
+                f.close()
+            with open(source_file, "r") as f:
+                string = f.read()
+                filehash = str(hash(str(string)))
+                f.close()
+            if basehash == filehash:
+                up_to_date.append(source_file)
+            else:
+                with open(".csbuild/" + basename + ".hash", "w") as f:
+                    f.truncate()
+                    f.write(str(filehash))
+                    f.close()
+        else:
+            filehash = ""
+            with open(source_file, "r") as f:
+                string = f.read()
+                filehash = str(hash(str(string)))
+                f.close()
+            with open(".csbuild/" + basename + ".hash", "x") as f:
+                    f.write(str(filehash))
+                    f.close()
+    for source_file in sources:
         print("Compiling: " + source_file)
+        
+        if source_file in up_to_date:
+            print("File up to date")
+            continue
+
         if args.verbose:
             log(f"{compiler} -c {source_file} -o {source_file.replace('.c', '.o')} {libs} {extra_flags}", 1)
         os.system(f"{compiler} -c {source_file} -o {source_file.replace('.c', '.o')} {libs} {extra_flags}")
@@ -56,6 +91,10 @@ def build():
 # Checks if CSBuildInfo exists in current dir, if not then exits with error
 if not os.path.exists("CSBuildInfo"):
     log("CSBuildInfo file does not exist in directory: " + os.getcwd(), 2)
+
+if not os.path.exists(".csbuild"):
+    log(".csbuild directory does not exist, creating it...", 1)
+    os.mkdir(".csbuild")
 
 # Reads CSBuildInfo file into buildinfo
 with open("CSBuildInfo", "r") as f:

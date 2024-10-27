@@ -4,4 +4,4 @@ csbuild.spec
 *.o
 main
 csbuild
-
+.csbuild
