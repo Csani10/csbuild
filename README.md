@@ -1,5 +1,7 @@
 # CSBuild (Csani Build)
 
+!!Currently it only works on linux!!
+
 ## What is this?
 This is a program like cmake made with python.
 Its for building c projects.
