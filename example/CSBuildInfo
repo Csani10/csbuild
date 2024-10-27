@@ -15,9 +15,9 @@ end
 
 runbuild:
 BUILD
-./%OUTPUT_FILE%
+RUN
 end
 
 run:
-./%OUTPUT_FILE%
+RUN
 end
