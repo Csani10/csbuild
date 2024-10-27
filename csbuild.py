@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser(description="Its like cmake but better.")
 parser.add_argument("info_file_dir", help="Directory of the CSBuildInfo file", nargs="?", default=".")
 parser.add_argument("-o", "--operation", help="Define an operation for CSBuild to do")
 parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output of the builder")
+parser.add_argument("-a", "--run-args", help="Arguments for running the program", nargs="+", required=False)
 args = parser.parse_args()
 
 # Chnage into info_file_dir
@@ -25,10 +26,13 @@ def log(message, level):
     if level == 0:
         print(message)
     elif level == 1:
-        print("[DEBUG] " + message)
+        print("[DEBUG] " + str(message))
     elif level == 2:
-        print("[ERROR] " + message)
+        print("[ERROR] " + str(message))
         os._exit(1)
+
+if args.verbose:
+    log(args, 1)
 
 # Build function, builds the project using CSBuild variables
 def build():
@@ -145,10 +149,15 @@ if args.operation:
                 if args.verbose:
                     log(command, 1)
                 os.system(command)
+            elif line == "RUN":
+                command = "./" + output_file
+                if args.run_args:
+                    for arg in args.run_args:
+                        command += " " + arg
+                os.system(command)
             else:
-                if args.verbose:
-                    log(line, 1)
                 os.system(line)
+            
             i += 1
 else:
     build()
