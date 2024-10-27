@@ -3,3 +3,5 @@ build/
 csbuild.spec
 *.o
 main
+csbuild
+
