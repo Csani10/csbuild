@@ -1,4 +1,5 @@
-./dist/
-./build/
+dist/
+build/
+csbuild.spec
 *.o
 main
