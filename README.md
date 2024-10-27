@@ -1,13 +1,11 @@
-### CSBuild (Csani Build)
+# CSBuild (Csani Build)
 
-## EN
-
-### What is this?
+## What is this?
 This is a program like cmake made with python.
 Its for building c projects.
 
-### How to use?
-#### Program
+## How to use?
+### Program
 ```bash
 python3 csbuild.py <project directory or current directory>
 ```
@@ -17,7 +15,7 @@ For more usage type:
 python3 csbuild.py -h
 ```
 
-#### CSBuildInfo
+### CSBuildInfo
 This is the info file for csbuild
 Example:
 ```CSBuildInfo
@@ -47,7 +45,7 @@ run:
 end
 ```
 
-##### How to use CSBuildInfo
+#### How to use CSBuildInfo
 Firstly you define your c compiler with:
 ```CSBuildInfo
 COMPILER <your complier>
@@ -84,7 +82,7 @@ You can make comments with //
 ```
 
 You can also define operations to do different things:
-```CSBuildInfo˙
+```CSBuildInfo
 //You can use % for variables like OUTPUT_FIlE
 run:
 ./%OUTPUT_FILE%
