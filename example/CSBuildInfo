@@ -1,0 +1,23 @@
+COMPILER gcc
+EXTRA_COMPILER_FLAGS -Wextra -Wall
+SOURCE_DIR src
+OUTPUT_FILE main
+
+//SOURCES.
+//src/main.c
+//src/mymath.c
+//.SOURCES
+
+clean:
+rm src/*.o
+rm %OUTPUT_FILE%
+end
+
+runbuild:
+BUILD
+./%OUTPUT_FILE%
+end
+
+run:
+./%OUTPUT_FILE%
+end
